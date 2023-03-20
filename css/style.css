@@ -50,3 +50,12 @@ select, button {
 select {
     border-radius: 20px;
 }
+
+.bomb-clicked {
+    background-color: red;
+}
+
+#lose {
+    color: red;
+    margin-bottom: 10px;
+}

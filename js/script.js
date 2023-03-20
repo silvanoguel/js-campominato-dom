@@ -18,6 +18,9 @@
 const grid = document.querySelector(".grid");
 const selectLevels = document.querySelector('#levels');
 const playBtn = document.querySelector('#play');
+const lose = document.querySelector('#lose');
+const win = document.querySelector('#win');
+const points = document.querySelector('#points');
 
 // Creo la grid
 gameMode(parseInt(selectLevels.value));
@@ -29,8 +32,14 @@ playBtn.addEventListener('click', function() {
 // Function
 function gameMode(mode) {
     grid.innerHTML = ""
-
+    let gamePlay = true;
     let classText;
+    let bombs = addBombs();
+    let counter = 0;
+    points.innerHTML = 0;
+    lose.classList.add('hidden');
+    win.classList.add('hidden');
+
 
     if(mode == 100) {
         classText = "level1";
@@ -44,12 +53,75 @@ function gameMode(mode) {
         let box = document.createElement('div');
         box.classList.add(classText);
         box.classList.add('box');
-        box.addEventListener('click', function() {
-            if(!this.classList.contains('clicked')) {
-                console.log(i);
+
+        //aggiungio le caselle con le bombe
+        for(b = 0; b < bombs.length; b++) {
+            if(i == bombs[b]) {
+            box.classList.add('bomb');
             }
-            this.classList.toggle('clicked');
+        }
+
+        box.addEventListener('click', function() {
+            if(gamePlay) {
+                if(this.classList.contains('bomb')) {
+                    this.classList.add('bomb-clicked');
+                    gamePlay = false;
+                    lose.classList.remove('hidden');
+                } else {
+                    //mostra il numero solo se box non è ancora attiva
+                    if(!this.classList.contains('clicked')) {
+                        console.log(i);
+                        counter++;
+                    }
+                    this.classList.add('clicked');
+                }
+                points.innerHTML = counter;
+                
+                if(counter == (mode - 16)) {
+                    gamePlay = false;
+                    win.classList.remove('hidden');
+                }
+            }
+            
         })
         grid.append(box);
+    
     }
+}
+
+// Array con le caselle per le bombe
+function createBombs(cells) {
+    let bombCelss = [];
+    for(let i = 1; i <= 16; i++) {
+        bombCelss.push(Math.floor(Math.random() * (cells - 1) + 1));
+    }
+
+    return bombCelss;
+}
+
+function addBombs() {
+    let bombe = createBombs(parseInt(selectLevels.value));
+    //se esistiono duplicati rifai l'array delle bombe finche non ce un'array senza duplicati
+    while(hasDuplicate(bombe)) {
+        bombe = createBombs(parseInt(selectLevels.value)); 
+    } 
+    //metto l'array in ordine crescente
+    return bombe.sort(function(a, b) {
+        return a - b;
+    });
+} 
+
+// controlla se ci sono dei numeri che si ripetono in un array
+function hasDuplicate(arr) {
+    for(let i = 0; i < arr.length; i++) {
+        for(let k = 0; k < arr.length; k++) {
+            //evito che si compari con se stesso
+            if(i !== k) {
+                if(arr[i] == arr[k]) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
