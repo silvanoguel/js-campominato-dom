@@ -76,16 +76,13 @@ function gameMode(mode) {
                     this.classList.add('clicked');
                 }
                 points.innerHTML = counter;
-                
                 if(counter == (mode - 16)) {
                     gamePlay = false;
                     win.classList.remove('hidden');
                 }
             }
-            
         })
         grid.append(box);
-    
     }
 }
 
