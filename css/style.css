@@ -1,0 +1,52 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    text-align: center;
+}
+
+.playmode {
+    margin: 20px auto;
+}
+
+.grid {
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    height: 500px;
+    width: 500px;
+}
+
+.level1 {
+    width: calc(100% / 10);
+    height: calc(100% / 10);
+}
+
+.level2 {
+    width: calc(100% / 9);
+    height: calc(100% / 9);
+}
+
+.level3 {
+    width: calc(100% / 7);
+    height: calc(100% / 7);
+}
+
+.box {
+    border: 1px solid black;
+}
+
+.clicked {
+    background-color: lightskyblue;
+}
+
+select, button {
+    padding: 5px;
+}
+
+select {
+    border-radius: 20px;
+}
